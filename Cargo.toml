@@ -1,0 +1,70 @@
+[package]
+name = "megasoft"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+description = "MegaSoft Nepal — Rust + Leptos + WebAssembly studio site"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+leptos = { version = "0.8.23" }
+leptos_router = { version = "0.8.17" }
+leptos_meta = { version = "0.8.7" }
+leptos-use-window-scroll = { version = "0.20.0" }
+leptos-use-event-listener = { version = "0.20.0" }
+
+axum = { version = "0.8", optional = true }
+console_error_panic_hook = { version = "0.1", optional = true }
+leptos_axum = { version = "0.8.10", optional = true }
+tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"], optional = true }
+wasm-bindgen = { version = "0.2.130", optional = true }
+web-sys = { version = "0.3.107", features = [
+    "CssStyleDeclaration",
+    "Document",
+    "Element",
+    "HtmlElement",
+    "Window",
+], optional = true }
+
+[features]
+hydrate = [
+    "leptos/hydrate",
+    "dep:console_error_panic_hook",
+    "dep:wasm-bindgen",
+    "dep:web-sys",
+]
+ssr = [
+    "dep:axum",
+    "dep:tokio",
+    "dep:leptos_axum",
+    "leptos/ssr",
+    "leptos_meta/ssr",
+    "leptos_router/ssr",
+]
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[package.metadata.leptos]
+output-name = "megasoft"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+style-file = "style/main.css"
+style-bundle = true
+assets-dir = "public"
+site-addr = "127.0.0.1:3000"
+reload-port = 3001
+browserquery = "defaults"
+env = "DEV"
+bin-features = ["ssr"]
+bin-default-features = false
+lib-features = ["hydrate"]
+lib-default-features = false
+lib-profile-release = "wasm-release"

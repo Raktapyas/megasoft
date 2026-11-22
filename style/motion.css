@@ -1,0 +1,197 @@
+/* Motion: one easing curve, two properties, no libraries. */
+
+/* Headline line masking (home hero) */
+.headline-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.headline-mask > span {
+  display: block;
+}
+
+/* Scrolling discipline marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--hairline);
+  background: var(--ink-soft);
+  padding-block: 16px;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-inline: var(--space-4);
+  color: var(--slate);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Scroll progress inside the masthead */
+.scroll-progress {
+  position: absolute;
+  inset-inline: 1px;
+  bottom: 1px;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: progress-grow linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Scroll-linked reveals. Static content by default. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 34%;
+  }
+}
+
+/* Media clip reveal for detail pages */
+@keyframes clip-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .detail-media {
+    animation: clip-in 900ms var(--ease-expo) both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 26%;
+  }
+}
+
+/* Hero atmosphere settles in without delaying text */
+@keyframes hero-lift {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__chip,
+.hero__lead,
+.hero__actions,
+.hero__note {
+  animation: hero-lift 900ms var(--ease-expo) both;
+}
+
+.hero__chip {
+  animation-delay: 40ms;
+}
+
+.hero__lead {
+  animation-delay: 160ms;
+}
+
+.hero__actions {
+  animation-delay: 240ms;
+}
+
+.hero__note {
+  animation-delay: 320ms;
+}
+
+/* Reduced motion is the first path, not a patch. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee__track {
+    animation: none;
+    transform: none;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+
+  .hero__chip,
+  .hero__lead,
+  .hero__actions,
+  .hero__note,
+  .reveal,
+  .detail-media {
+    animation: none;
+  }
+
+  .work-card__link:hover .work-card__media img {
+    transform: none;
+  }
+}

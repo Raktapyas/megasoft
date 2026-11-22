@@ -1,0 +1,9 @@
+pub mod about;
+pub mod contact;
+pub mod home;
+pub mod not_found;
+pub mod privacy;
+pub mod project_detail;
+pub mod service_detail;
+pub mod services;
+pub mod work;

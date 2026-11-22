@@ -1,0 +1,73 @@
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/fonts/inter-tight-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  --ink: #000000;
+  --ink-soft: #0c0c0f;
+  --ink-lift: #141418;
+  --pewter: #2a2a31;
+  --ivory: #ffffff;
+  --ivory-dim: #c9c9ce;
+  --slate: #8b8b93;
+  --accent: #c9a227;
+  --accent-deep: #dcb434;
+
+  --hairline: rgba(255, 255, 255, 0.09);
+  --hairline-strong: rgba(255, 255, 255, 0.14);
+  --surface-soft: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+
+  --font-display: "Inter Tight", -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter Tight", -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 180ms;
+  --dur-state: 320ms;
+  --dur-link: 550ms;
+  --dur-reveal: 1000ms;
+  --dur-media: 1200ms;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 30px;
+  --space-7: 40px;
+  --space-8: 45px;
+  --space-9: 64px;
+  --space-10: 88px;
+  --space-11: 100px;
+  --space-12: 120px;
+  --space-13: 160px;
+
+  --shell: 1200px;
+  --gutter: 20px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --section-y: clamp(5.5rem, 10vw, 10rem);
+  --mast-top: 18px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 40px;
+    --mast-top: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 64px;
+  }
+}
