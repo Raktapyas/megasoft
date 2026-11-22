@@ -13,8 +13,20 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
             <A href=href attr:class="work-card__link">
                 <div class="work-card__media">
                     {if project.image.is_empty() {
-                        let initials = initials(project.name);
-                        view! { <div class="work-card__monogram">{initials}</div> }.into_any()
+                        let display = project.monogram.unwrap_or_else(|| {
+                            // compute from name as fallback
+                            // This is a static computation, so we use a simple approach
+                            ""
+                        });
+                        let text = if display.is_empty() {
+                            project.name.split_whitespace()
+                                .filter_map(|w| w.chars().next())
+                                .take(2)
+                                .collect::<String>()
+                        } else {
+                            display.to_string()
+                        };
+                        view! { <div class="work-card__monogram">{text}</div> }.into_any()
                     } else {
                         view! {
                             <img
@@ -38,11 +50,4 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
             </A>
         </article>
     }
-}
-
-fn initials(name: &str) -> String {
-    name.split_whitespace()
-        .filter_map(|word| word.chars().next())
-        .take(2)
-        .collect()
 }
