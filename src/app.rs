@@ -4,7 +4,7 @@ use leptos_router::components::{Route, Router, Routes};
 use leptos_router::hooks::use_location;
 use leptos_router::path;
 
-use crate::components::{SiteFooter, SiteHeader};
+use crate::components::{Assistant, SiteFooter, SiteHeader};
 use crate::pages::about::About;
 use crate::pages::contact::Contact;
 use crate::pages::home::Home;
@@ -81,5 +81,7 @@ fn AppShell() -> impl IntoView {
         </main>
 
         <SiteFooter/>
+
+        <Assistant/>
     }
 }

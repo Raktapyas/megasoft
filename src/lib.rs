@@ -1,4 +1,5 @@
 pub mod app;
+pub mod assistant;
 pub mod components;
 pub mod data;
 pub mod motion;

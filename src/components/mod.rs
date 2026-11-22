@@ -1,4 +1,6 @@
 pub mod animated_text;
+pub use animated_text::{AnimatedChars, AnimatedText};
+pub mod assistant;
 pub mod button;
 pub mod container;
 pub mod magnetic_button;
@@ -13,7 +15,7 @@ pub mod site_footer;
 pub mod site_header;
 pub mod tilt_card;
 
-pub use animated_text::{AnimatedChars, AnimatedText};
+pub use assistant::Assistant;
 pub use button::Button;
 pub use container::Container;
 pub use logo::Logo;
