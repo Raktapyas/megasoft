@@ -15,10 +15,21 @@ pub fn Home() -> impl IntoView {
             path="/"
         />
 
-        <section class="hero grain">
-            <div class="hero-lines" aria-hidden="true"></div>
-            <div class="hero-glow" aria-hidden="true"></div>
-            <div class="hero-floor" aria-hidden="true"></div>
+        <section class="hero grain perspective-container">
+            <div class="hero-depth" aria-hidden="true">
+                <div class="hero-depth__layer hero-depth__layer--back">
+                    <div class="hero-lines"></div>
+                </div>
+                <div class="hero-depth__layer hero-depth__layer--mid">
+                    <div class="hero-glow"></div>
+                </div>
+                <div class="hero-depth__layer hero-depth__layer--front">
+                    <div class="hero-floor"></div>
+                </div>
+                <div class="floating-shape floating-shape--orb" style="top: 20%; left: 15%;"></div>
+                <div class="floating-shape floating-shape--ring" style="top: 60%; right: 10%;"></div>
+                <div class="floating-shape floating-shape--diamond" style="top: 30%; right: 25%;"></div>
+            </div>
 
             <div class="container hero__inner">
                 <p class="chip hero__chip">

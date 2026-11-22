@@ -88,9 +88,84 @@ pub fn use_parallax(speed: f64) -> (NodeRef<leptos::html::Div>, ReadSignal<f64>)
     (node_ref, offset)
 }
 
+/// Hook: track mouse position relative to an element.
+/// Returns (node_ref, (x_signal, y_signal)) where x/y are -1..1 normalized.
+#[cfg(feature = "hydrate")]
+pub fn use_mouse_position() -> (NodeRef<leptos::html::Div>, ReadSignal<f64>, ReadSignal<f64>) {
+    let node_ref = NodeRef::<leptos::html::Div>::new();
+    let (x, set_x) = signal(0.0f64);
+    let (y, set_y) = signal(0.0f64);
+
+    Effect::new(move |_| {
+        let el = match node_ref.get() {
+            Some(el) => el,
+            None => return,
+        };
+        let el: web_sys::Element = el.into();
+
+        let el_clone = el.clone();
+        let mousemove_cb = Closure::wrap(Box::new(move |ev: web_sys::MouseEvent| {
+            let rect = el_clone.get_bounding_client_rect();
+            let cx = rect.left() + rect.width() / 2.0;
+            let cy = rect.top() + rect.height() / 2.0;
+            let nx = ((ev.client_x() as f64) - cx) / (rect.width() / 2.0);
+            let ny = ((ev.client_y() as f64) - cy) / (rect.height() / 2.0);
+            set_x.set(nx.clamp(-1.0, 1.0));
+            set_y.set(ny.clamp(-1.0, 1.0));
+        }) as Box<dyn FnMut(web_sys::MouseEvent)>);
+
+        let el_clone2 = el.clone();
+        let mouseleave_cb = Closure::wrap(Box::new(move || {
+            set_x.set(0.0);
+            set_y.set(0.0);
+            let _ = &el_clone2;
+        }) as Box<dyn FnMut()>);
+
+        el.add_event_listener_with_callback("mousemove", mousemove_cb.as_ref().unchecked_ref()).unwrap();
+        el.add_event_listener_with_callback("mouseleave", mouseleave_cb.as_ref().unchecked_ref()).unwrap();
+
+        mousemove_cb.forget();
+        mouseleave_cb.forget();
+    });
+
+    (node_ref, x, y)
+}
+
 #[cfg(not(feature = "hydrate"))]
-pub fn use_parallax(_speed: f64) -> (NodeRef<leptos::html::Div>, ReadSignal<f64>) {
+pub fn use_mouse_position() -> (NodeRef<leptos::html::Div>, ReadSignal<f64>, ReadSignal<f64>) {
     (NodeRef::new(), {
+        let (s, _) = signal(0.0);
+        s
+    }, {
+        let (s, _) = signal(0.0);
+        s
+    })
+}
+
+/// Hook: 3D tilt based on mouse position.
+/// Returns (node_ref, (rotate_x, rotate_y)) signals.
+#[cfg(feature = "hydrate")]
+pub fn use_tilt(strength: f64) -> (NodeRef<leptos::html::Div>, ReadSignal<f64>, ReadSignal<f64>) {
+    let (node_ref, mx, my) = use_mouse_position();
+    let (rx, set_rx) = signal(0.0f64);
+    let (ry, set_ry) = signal(0.0f64);
+
+    Effect::new(move |_| {
+        let tilt_x = my.get() * strength;
+        let tilt_y = -mx.get() * strength;
+        set_rx.set(tilt_x);
+        set_ry.set(tilt_y);
+    });
+
+    (node_ref, rx, ry)
+}
+
+#[cfg(not(feature = "hydrate"))]
+pub fn use_tilt(_strength: f64) -> (NodeRef<leptos::html::Div>, ReadSignal<f64>, ReadSignal<f64>) {
+    (NodeRef::new(), {
+        let (s, _) = signal(0.0);
+        s
+    }, {
         let (s, _) = signal(0.0);
         s
     })

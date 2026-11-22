@@ -9,9 +9,9 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
     let alt = format!("{} website", project.name);
 
     view! {
-        <article class="work-card">
+        <article class="work-card work-card--3d">
             <A href=href attr:class="work-card__link">
-                <div class="work-card__media">
+                <div class="work-card__media image-reveal">
                     {if project.image.is_empty() {
                         let display = project.monogram.unwrap_or_else(|| {
                             // compute from name as fallback
