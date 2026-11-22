@@ -1666,3 +1666,125 @@ select.field option {
     grid-template-columns: 1fr;
   }
 }
+
+/* Animated text */
+.animated-text,
+.animated-chars {
+  display: inline;
+}
+
+.animated-text__word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.animated-text__inner {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition:
+    transform 900ms var(--ease-expo),
+    opacity 900ms var(--ease-expo);
+  transition-delay: var(--delay, 0ms);
+}
+
+.animated-text.is-visible .animated-text__inner,
+.reveal.is-visible .animated-text__inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.animated-chars__char {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+  transition:
+    transform 700ms var(--ease-expo),
+    opacity 700ms var(--ease-expo);
+  transition-delay: var(--delay, 0ms);
+}
+
+.animated-chars.is-visible .animated-chars__char,
+.reveal.is-visible .animated-chars__char {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Reveal container */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 900ms var(--ease-expo),
+    transform 900ms var(--ease-expo);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Magnetic button */
+.magnetic {
+  transition: transform 300ms var(--ease-expo);
+  will-change: transform;
+}
+
+/* Horizontal gallery */
+.horizontal-gallery {
+  display: flex;
+  gap: var(--space-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-block: var(--space-4);
+}
+
+.horizontal-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-gallery > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Draggable slider */
+.draggable-slider {
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.draggable-slider:active {
+  cursor: grabbing;
+}
+
+.draggable-slider__track {
+  display: flex;
+  gap: var(--space-5);
+  transition: transform 600ms var(--ease-expo);
+  will-change: transform;
+}
+
+/* Image reveal */
+.image-reveal {
+  overflow: hidden;
+}
+
+.image-reveal img {
+  transform: scale(1.15);
+  transition: transform 1200ms var(--ease-expo);
+}
+
+.image-reveal.is-visible img {
+  transform: scale(1);
+}
+
+/* Character stagger for hero */
+.hero__title .animated-chars__char {
+  transition-delay: calc(var(--delay, 0ms) + 100ms);
+}

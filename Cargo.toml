@@ -21,11 +21,17 @@ console_error_panic_hook = { version = "0.1", optional = true }
 leptos_axum = { version = "0.8.10", optional = true }
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"], optional = true }
 wasm-bindgen = { version = "0.2.130", optional = true }
+js-sys = { version = "0.3.107", optional = true }
 web-sys = { version = "0.3.107", features = [
     "CssStyleDeclaration",
     "Document",
+    "DomRect",
     "Element",
     "HtmlElement",
+    "IntersectionObserver",
+    "IntersectionObserverEntry",
+    "IntersectionObserverInit",
+    "MouseEvent",
     "Window",
 ], optional = true }
 
@@ -34,6 +40,7 @@ hydrate = [
     "leptos/hydrate",
     "dep:console_error_panic_hook",
     "dep:wasm-bindgen",
+    "dep:js-sys",
     "dep:web-sys",
     "dep:leptos-use-event-listener",
     "dep:leptos-use-window-scroll",

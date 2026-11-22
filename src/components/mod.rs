@@ -1,19 +1,24 @@
+pub mod animated_text;
 pub mod button;
 pub mod container;
+pub mod magnetic_button;
 pub mod logo;
 pub mod page_hero;
 pub mod page_meta;
 pub mod project_card;
+pub mod reveal;
 pub mod section_heading;
 pub mod site_footer;
 pub mod site_header;
 
+pub use animated_text::{AnimatedChars, AnimatedText};
 pub use button::Button;
 pub use container::Container;
-pub use logo::Logo;
+pub use magnetic_button::MagneticButton;
 pub use page_hero::PageHero;
 pub use page_meta::PageMeta;
 pub use project_card::ProjectCard;
+pub use reveal::Reveal;
 pub use section_heading::SectionHeading;
 pub use site_footer::SiteFooter;
 pub use site_header::SiteHeader;

@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 use leptos_router::components::A;
 
-use crate::components::{Button, PageMeta, ProjectCard, SectionHeading};
+use crate::components::{AnimatedText, Button, PageMeta, ProjectCard, SectionHeading};
 use crate::data::projects::{featured_projects, PROJECTS};
 use crate::data::services::SERVICES;
 use crate::data::site::{DESCRIPTION, ESTABLISHED, FACTS};
@@ -28,10 +28,10 @@ pub fn Home() -> impl IntoView {
 
                 <h1 class="display display--1 hero__title">
                     <span class="headline-mask">
-                        <span>"Digital experiences."</span>
+                        <AnimatedText text="Digital experiences." mode="word" base_delay=200 stagger=80/>
                     </span>
                     <span class="headline-mask">
-                        <span class="hero__title-dim">"Built to move you forward."</span>
+                        <AnimatedText text="Built to move you forward." mode="word" base_delay=600 stagger=60 class="hero__title-dim"/>
                     </span>
                 </h1>
 
