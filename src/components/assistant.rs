@@ -2,7 +2,7 @@ use leptos::prelude::*;
 use leptos::ev;
 #[cfg(feature = "hydrate")]
 use wasm_bindgen::prelude::*;
-use crate::assistant::{get_response, load_messages, match_intent, save_messages, clear_messages, ChatMessage, Intent};
+use crate::assistant::{get_response, load_messages, match_intent, save_messages, clear_messages, ChatMessage};
 
 const SUGGESTED_QUESTIONS: &[&str] = &[
     "What services do you offer?",
@@ -171,17 +171,15 @@ pub fn Assistant() -> impl IntoView {
     {
         use leptos_use_event_listener::use_event_listener;
         use leptos::ev;
-        Effect::new(move |_| {
-            if open.get() {
-                let cb = move |ev: ev::KeyboardEvent| {
-                    if ev.key() == "Escape" {
-                        open.set(false);
-                    }
-                };
-                // We'll handle this via the dialog's keydown
-                let _ = cb;
-            }
-        });
+        let _ = use_event_listener(
+            leptos::prelude::document(),
+            ev::keydown,
+            move |ev: ev::KeyboardEvent| {
+                if ev.key() == "Escape" && open.get() {
+                    open.set(false);
+                }
+            },
+        );
     }
 
     view! {
@@ -328,11 +326,11 @@ pub fn Assistant() -> impl IntoView {
                     placeholder="Ask about MegaSoft..."
                     aria-label="Type your message"
                     prop:value=move || input_value.get()
-                    on:input=move |ev| {
+                    on:input=move |_ev| {
                         #[cfg(feature = "hydrate")]
                         {
                             use wasm_bindgen::JsCast;
-                            if let Some(target) = ev.target() {
+                            if let Some(target) = _ev.target() {
                                 if let Ok(input) = target.dyn_into::<web_sys::HtmlInputElement>() {
                                     input_value.set(input.value());
                                 }
@@ -356,7 +354,7 @@ pub fn Assistant() -> impl IntoView {
 fn current_timestamp() -> u64 {
     #[cfg(feature = "hydrate")]
     {
-        (js_sys::Date::now() as u64)
+        js_sys::Date::now() as u64
     }
     #[cfg(not(feature = "hydrate"))]
     {

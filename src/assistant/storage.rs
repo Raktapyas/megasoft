@@ -2,6 +2,7 @@ use crate::assistant::types::ChatMessage;
 #[cfg(feature = "hydrate")]
 use wasm_bindgen::JsValue;
 
+#[cfg(feature = "hydrate")]
 const STORAGE_KEY: &str = "megasoft_assistant_messages";
 
 #[cfg(feature = "hydrate")]
